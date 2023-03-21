@@ -1,5 +1,6 @@
 package bs.student.dao;
 
+import bs.student.common.StudentInterface;
 import bs.student.dto.Student;
 
 public class StudentDao2 {
@@ -60,10 +61,11 @@ public class StudentDao2 {
 	}
 
 	// 이름으로찾기
+	// 풀네임말고 몇글자로 찾을수있도록만들기
 	public String searchByName(String name) {
 		String result = "";
 		for (Student s : students) {
-			if (s != null && s.getName().equals(name)) {
+			if (s != null && s.getName().contains(name)){
 				result += s.infoStudent() + "\n";
 
 			}
@@ -84,5 +86,21 @@ public class StudentDao2 {
 		}
 		return false;
 	}
+	
+	
+	public static Student[] entire(Student[] st, Object data, StudentInterface sf) {
+		Student[] entire = new Student[st.length];
+		int index= 0;
+		for(int i = 0;i<st.length;i++) {
+			if(sf.check(st[i], data)) {
+				entire[index++]=st[i];
+			}
+		}
+		Student[] result = new Student[index];
+		System.arraycopy(entire, 0, result, 0, index);
+		return result;
+		
+	}
+	
 
 }
