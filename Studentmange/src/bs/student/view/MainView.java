@@ -29,6 +29,7 @@ public class MainView {
 			System.out.println("3. 학생삭제");
 			System.out.println("4. 학생조회");
 			System.out.println("5. 이름으로 조회");
+			System.out.println("6. 항목별 학생조회");
 			System.out.println("0. 프로그램 종료");
 			System.out.print("메뉴 선택 : ");
 			int menu = sc.nextInt();
@@ -48,6 +49,8 @@ public class MainView {
 			case 5:
 				s.searchByName();
 				break;
+			case 6: 
+				s.searchStudent();
 			case 0:
 				System.out.println("프로그램을 종료합니다.");
 				return;
@@ -128,5 +131,22 @@ public class MainView {
 		
 		return s;
 
+	}
+	public int selectType () {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("==== 검색할 항목선택====");
+		System.out.println("1. 이름");
+		System.out.println("2. 전공");
+		System.out.println("3. 학년");
+		return sc. nextInt();	
+		
+		
+	}
+	
+	public Object inputData(String type) {
+		Scanner sc=new Scanner(System.in);
+		System.out.print("검색할 "+type+"입력 : ");
+		return type.equals("학년")?sc.nextInt():sc.nextLine();
+		
 	}
 }

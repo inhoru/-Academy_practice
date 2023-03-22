@@ -1,6 +1,6 @@
 package bs.student.dao;
 
-import bs.student.common.StudentInterface;
+import bs.student.common.StudentFilter;
 import bs.student.dto.Student;
 
 public class StudentDao2 {
@@ -12,7 +12,7 @@ public class StudentDao2 {
 	private StudentDao2() {
 	}
 
-	public static StudentDao2 getStudentDao2() {
+	public static StudentDao2 getStudentDao() {
 		if (dao == null)
 			dao = new StudentDao2();
 		return dao;
@@ -29,14 +29,9 @@ public class StudentDao2 {
 				return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
 				// result =true;
 				// break;
-			} else if (students[i].equals(s)) {
-				return false;
-				
-				
-
 			}
 		}
-		return true;
+		return false;
 		// return result;
 	}
 
@@ -87,18 +82,20 @@ public class StudentDao2 {
 		return false;
 	}
 	
-	
-	public static Student[] entire(Student[] st, Object data, StudentInterface sf) {
-		Student[] entire = new Student[st.length];
+	//항목별 학생조회
+	public Student[] searchStudent(Object data, StudentFilter sf) {
+		Student[] resultStudent = new Student[students.length];
 		int index= 0;
-		for(int i = 0;i<st.length;i++) {
-			if(sf.check(st[i], data)) {
-				entire[index++]=st[i];
+		for(int i = 0;i<students.length;i++) {
+			if(students[i]!=null
+					&&sf.check(students[i], data)) {
+				resultStudent[index++]=students[i];
 			}
 		}
-		Student[] result = new Student[index];
-		System.arraycopy(entire, 0, result, 0, index);
-		return result;
+		Student[] temp = new Student[index];
+		System.arraycopy(resultStudent, 0, temp, 0, index);
+		resultStudent = temp;
+		return resultStudent;
 		
 	}
 	
