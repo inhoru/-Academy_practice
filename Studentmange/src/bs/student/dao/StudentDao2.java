@@ -7,7 +7,7 @@ public class StudentDao2 {
 	// 배열을 이용한 dao
 
 	private static StudentDao2 dao;
-	private Student[] students = new Student[10];
+	private Student[] students = new Student[5];
 
 	private StudentDao2() {
 	}
@@ -29,14 +29,9 @@ public class StudentDao2 {
 				return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
 				// result =true;
 				// break;
-			} else if (students[i].equals(s)) {
-				return false;
-				
-				
-
 			}
 		}
-		return true;
+		return false;
 		// return result;
 	}
 
