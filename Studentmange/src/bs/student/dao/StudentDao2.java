@@ -1,18 +1,18 @@
 package bs.student.dao;
 
-import bs.student.common.StudentInterface;
+import bs.student.common.StudentFilter;
 import bs.student.dto.Student;
 
 public class StudentDao2 {
 	// 배열을 이용한 dao
 
 	private static StudentDao2 dao;
-	private Student[] students = new Student[5];
+	private Student[] students = new Student[10];
 
 	private StudentDao2() {
 	}
 
-	public static StudentDao2 getStudentDao2() {
+	public static StudentDao2 getStudentDao() {
 		if (dao == null)
 			dao = new StudentDao2();
 		return dao;
@@ -87,18 +87,20 @@ public class StudentDao2 {
 		return false;
 	}
 	
-	
-	public static Student[] entire(Student[] st, Object data, StudentInterface sf) {
-		Student[] entire = new Student[st.length];
+	//항목별 학생조회
+	public Student[] searchStudent(Object data, StudentFilter sf) {
+		Student[] resultStudent = new Student[students.length];
 		int index= 0;
-		for(int i = 0;i<st.length;i++) {
-			if(sf.check(st[i], data)) {
-				entire[index++]=st[i];
+		for(int i = 0;i<students.length;i++) {
+			if(students[i]!=null
+					&&sf.check(students[i], data)) {
+				resultStudent[index++]=students[i];
 			}
 		}
-		Student[] result = new Student[index];
-		System.arraycopy(entire, 0, result, 0, index);
-		return result;
+		Student[] temp = new Student[index];
+		System.arraycopy(resultStudent, 0, temp, 0, index);
+		resultStudent = temp;
+		return resultStudent;
 		
 	}
 	

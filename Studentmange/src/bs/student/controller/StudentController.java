@@ -1,6 +1,6 @@
 package bs.student.controller;
 
-import bs.student.dao.StudentDao;
+import bs.student.common.StudentFilter;
 import bs.student.dao.StudentDao2;
 import bs.student.dto.Student;
 import bs.student.view.MainView;
@@ -32,7 +32,7 @@ public class StudentController {
 		// 1. 사용자로부터 저장할 학생에대한 정보를 입력받는다.
 		Student s = MainView.getMainView().insertStudentView();
 		// 2. studentdao 에 받은 학생을 저장하기
-		boolean result = StudentDao2.getStudentDao2().insertStudent(s);
+		boolean result = StudentDao2.getStudentDao().insertStudent(s);
 		// 3. 입력한 결과에 따라 사용자에게 메세지를 출력
 		String msg = result ? "학생등록 성공:)" : "학생등록실패:(";
 		MainView.getMainView().printMsg(msg);
@@ -42,7 +42,7 @@ public class StudentController {
 		// 전체 학생을 조회하는 서비스
 		// 1.StudentDao에저장된 학생정보 가져오기
 		// s1,s2,s3,s4정보가져오기
-		Student[] infoStudent = StudentDao2.getStudentDao2().infoStudentAll();// 위에 멤버변수로 만든 객체가있다.
+		Student[] infoStudent = StudentDao2.getStudentDao().infoStudentAll();// 위에 멤버변수로 만든 객체가있다.
 		// 2. 가져온 정보를 화면에 출력해준다.
 //		String data;
 //		if(infoStudent.equals("")) {
@@ -62,7 +62,7 @@ public class StudentController {
 		// 2.사용자가 입력한 이름을 가져와 저장소에있는 데이터와 비교할 결과를 가져옴
 		// 3. 결과를 사용자에게 출력해줌.
 		String name = MainView.getMainView().inputName();
-		String result = StudentDao2.getStudentDao2().searchByName(name);
+		String result = StudentDao2.getStudentDao().searchByName(name);
 		MainView.getMainView().printStudent(result);
 
 	}
@@ -72,9 +72,28 @@ public class StudentController {
 		searchAll();
 		Student s =MainView.getMainView().updateStudentView();
 		//2. 저장된 학생 중 수정할 학생을 찾아 s에 저장된 데이터로 수정
-		boolean result = StudentDao2.getStudentDao2().updateStudent(s);
+		boolean result = StudentDao2.getStudentDao().updateStudent(s);
 		MainView.getMainView().printMsg(result?s.getStudentNo()+"학생수정완료 :)":s.getStudentNo()+"학생수정실패 :(");
 		
 		
 	}
+	public void searchStudent() {
+		int type = view.selectType();
+		Object data = null;
+		StudentFilter filter = null;
+		switch(type) {
+		//이름
+		case 1 : data=view.inputData("이름");filter=(s,d)-> s.getName().contains((String)d);break;
+		//전공
+		case 2 : data=view.inputData("전공");filter=(s,d)-> s.getMajor().contains((String)d);break;
+		//학년
+		case 3 : data=view.inputData("학년");filter=(s,d)-> s.getGrade()==(int)d;break;
+	}
+		Student[] result=StudentDao2.getStudentDao().searchStudent(
+			data,filter);
+	
+	view.printStudent(result);
+}
+
+	
 }
