@@ -1,5 +1,7 @@
 package bs.student.dao;
 
+import java.util.Arrays;
+
 import bs.student.common.StudentFilter;
 import bs.student.dto.Student;
 
@@ -22,17 +24,26 @@ public class StudentDao2 {
 	// 학생등록
 	public boolean insertStudent(Student s) {
 		// boolean result = false;
-
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] == null) {
-				students[i] = s;
-				return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
-				// result =true;
-				// break;
-			}
+	
+try {
+	
+	for (int i = 0; i < students.length; i++) {
+		if (students[i] == null) {
+			students[i] = s;
+			return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
+			// result =true;
+			// break;
 		}
-		return false;
-		// return result;
+	}
+	return false;
+ }catch (ArrayIndexOutOfBoundsException a) {
+	 int[] temp = new int [students.length + 5] {
+			 System.arraycopy(students, 0, s, 0, 0);
+	 }
+	 Arrays.copyOf(null, 0)
+ }
+		
+
 	}
 
 	// 학생조회
