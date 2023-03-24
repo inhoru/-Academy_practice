@@ -1,9 +1,10 @@
 package bs.student.dto;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
 //사용자가입력한 정보를 저장
-public class Student {
+public class Student implements Serializable{
 	private static int count;
 	private String name;
 	private String studentNo;
@@ -96,6 +97,12 @@ public class Student {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [name=" + name + ", grade=" + grade + ", major=" + major
+				+ ", address=" + address + ", gender=" + gender + "]";
 	}
 
 }

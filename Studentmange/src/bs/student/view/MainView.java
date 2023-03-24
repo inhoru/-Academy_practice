@@ -30,6 +30,8 @@ public class MainView {
 			System.out.println("4. 학생조회");
 			System.out.println("5. 이름으로 조회");
 			System.out.println("6. 항목별 학생조회");
+			System.out.println("7. 저장하기");
+			System.out.println("8. 불러오기");
 			System.out.println("0. 프로그램 종료");
 			System.out.print("메뉴 선택 : ");
 			int menu = sc.nextInt();
@@ -51,6 +53,13 @@ public class MainView {
 				break;
 			case 6: 
 				s.searchStudent();
+				break;
+			case 7:
+				s.saveStudent();
+				break;
+			case 8:
+				s.loadStudent();
+				break;
 			case 0:
 				System.out.println("프로그램을 종료합니다.");
 				return;

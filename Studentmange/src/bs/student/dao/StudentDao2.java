@@ -1,11 +1,16 @@
 package bs.student.dao;
 
-import java.util.Arrays;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import bs.student.common.StudentFilter;
 import bs.student.dto.Student;
 
-public class StudentDao2 {
+public class StudentDao2  {
 	// 배열을 이용한 dao
 
 	private static StudentDao2 dao;
@@ -23,27 +28,19 @@ public class StudentDao2 {
 
 	// 학생등록
 	public boolean insertStudent(Student s) {
-		// boolean result = false;
-	
-try {
-	
-	for (int i = 0; i < students.length; i++) {
-		if (students[i] == null) {
-			students[i] = s;
-			return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
-			// result =true;
-			// break;
-		}
-	}
-	return false;
- }catch (ArrayIndexOutOfBoundsException a) {
-	 int[] temp = new int [students.length + 5] {
-			 System.arraycopy(students, 0, s, 0, 0);
-	 }
-	 Arrays.copyOf(null, 0)
- }
-		
+		 boolean result = false;
 
+		for (int i = 0; i < students.length; i++) {
+			if (students[i] == null) {
+				students[i] = s;
+				result =  true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
+				// result =true;
+				 break;
+			} else if(students[i] != null && students[i].toString().equals(s.toString())) {
+				result = false;
+			}
+		}
+		return result;
 	}
 
 	// 학생조회
@@ -71,7 +68,7 @@ try {
 	public String searchByName(String name) {
 		String result = "";
 		for (Student s : students) {
-			if (s != null && s.getName().contains(name)){
+			if (s != null && s.getName().contains(name)) {
 				result += s.infoStudent() + "\n";
 
 			}
@@ -92,22 +89,42 @@ try {
 		}
 		return false;
 	}
-	
-	//항목별 학생조회
+
+	// 항목별 학생조회
 	public Student[] searchStudent(Object data, StudentFilter sf) {
 		Student[] resultStudent = new Student[students.length];
-		int index= 0;
-		for(int i = 0;i<students.length;i++) {
-			if(students[i]!=null
-					&&sf.check(students[i], data)) {
-				resultStudent[index++]=students[i];
+		int index = 0;
+		for (int i = 0; i < students.length; i++) {
+			if (students[i] != null && sf.check(students[i], data)) {
+				resultStudent[index++] = students[i];
 			}
 		}
 		Student[] temp = new Student[index];
 		System.arraycopy(resultStudent, 0, temp, 0, index);
 		resultStudent = temp;
 		return resultStudent;
-		
+
+	}
+	public boolean saveStudent() {
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("student.bs"))){
+			oos.writeObject(this.students);
+			
+		}catch(IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean loadStudent() {
+		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("student.bs"))){
+			this.students=(Student[])ois.readObject();
+		}catch(ClassNotFoundException|IOException e) {
+			e.printStackTrace();
+			return false;
+			
+		}
+		return true;
 	}
 	
 
