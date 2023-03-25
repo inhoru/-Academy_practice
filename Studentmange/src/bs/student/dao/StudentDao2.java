@@ -105,6 +105,7 @@ public class StudentDao2  {
 		return resultStudent;
 
 	}
+	//저장하기
 	public boolean saveStudent() {
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("student.bs"))){
 			oos.writeObject(this.students);
@@ -115,7 +116,7 @@ public class StudentDao2  {
 		}
 		return true;
 	}
-	
+	//불러오기
 	public boolean loadStudent() {
 		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("student.bs"))){
 			this.students=(Student[])ois.readObject();
