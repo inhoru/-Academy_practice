@@ -84,7 +84,7 @@ public class StudentDao2 {
 		}
 		return searchStudent;
 	}
-
+//
 	// 이름으로찾기
 	// 풀네임말고 몇글자로 찾을수있도록만들기
 	public String searchByName(String name) {
