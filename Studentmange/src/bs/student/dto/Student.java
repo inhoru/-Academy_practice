@@ -2,9 +2,11 @@ package bs.student.dto;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 //사용자가입력한 정보를 저장
-public class Student implements Serializable{
+public class Student implements Serializable {
+	private static final long serialVersionUID = 8961184291262977827L;
 	private static int count;
 	private String name;
 	private String studentNo;
@@ -87,22 +89,29 @@ public class Student implements Serializable{
 		return this.studentNo + " " + this.name + " " + this.major + " " + this.grade + " " + this.address + " "
 				+ this.gender;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name,grade,gender,address,major);
+	}
+	
 
 	@Override
-	public boolean equals(Object o) {
-		Student s = (Student) o;
-		if (name.equals(s.getName()) && grade == s.getGrade() && major.equals(s.getMajor()) 
-				&& address.equals(s.getAddress())  && gender == s.getGender()) {
-
-			return true;
+	public boolean equals(Object s) {
+		if (this == s) return true;
+		if (s instanceof Student) {
+			Student target = (Student) s;
+			if (this.name.equals(target.getName()) && this.grade == target.getGrade()
+					&& this.major.equals(target.getMajor()) && this.address.equals(target.getAddress())
+					&& this.gender == target.getGender()) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [name=" + name + ", grade=" + grade + ", major=" + major
-				+ ", address=" + address + ", gender=" + gender + "]";
+		return infoStudent();
 	}
 
 }

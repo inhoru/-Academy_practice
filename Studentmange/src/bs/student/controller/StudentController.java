@@ -29,7 +29,7 @@ public class StudentController {
 	public void startProgram() {
 		//메인메뉴는 끝나는순간까지 돌아간다. 그러니깐 메인메뉴밑에잇는거는 메인뷰가 끝나고나서 실행이된다.
 		//메뉴가뜨기전에 불러온다음에 메뉴를 불러와야한다.
-		StudentDao2.getStudentDao().loadStudent();
+		
 		MainView.getMainView().mainMenu();
 
 	}

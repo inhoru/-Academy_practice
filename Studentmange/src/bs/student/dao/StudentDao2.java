@@ -10,11 +10,11 @@ import java.io.Serializable;
 import bs.student.common.StudentFilter;
 import bs.student.dto.Student;
 
-public class StudentDao2  {
+public class StudentDao2 {
 	// 배열을 이용한 dao
 
 	private static StudentDao2 dao;
-	private Student[] students = new Student[5];
+	private Student[] students = new Student[10];
 
 	private StudentDao2() {
 	}
@@ -27,20 +27,42 @@ public class StudentDao2  {
 	}
 
 	// 학생등록
+	// 중복값 확인
+	// 중복값있으면 넣고 없으면 넣을수없게
 	public boolean insertStudent(Student s) {
-		 boolean result = false;
-
-		for (int i = 0; i < students.length; i++) {
-			if (students[i] == null) {
-				students[i] = s;
-				result =  true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
-				// result =true;
-				 break;
-			} else if(students[i] != null && students[i].toString().equals(s.toString())) {
-				result = false;
+		boolean duplicateResult = false;
+		for (Student temp : this.students) {
+			if (temp != null && temp.equals(s)) {
+				duplicateResult = true;
+				break;
 			}
 		}
-		return result;
+		if (!duplicateResult) {
+			// for (int i = 0; i < students.length; i++) {
+			int i = 0;
+			while (true) {
+				try {
+					if (students[i] == null) {
+						students[i] = s;
+						return true; // 리턴을 받으면 바로 호출한곳으로 돌아간다 반복문이끝남
+					}
+					i++;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					Student[] temp = new Student[students.length + 5];
+					System.arraycopy(students, 0, temp, 0, students.length);
+					temp[students.length] = s;
+					students = temp;
+					return true;
+				}
+			}
+		}
+
+		// 내가만든 중복값확인
+//			} else if(students[i] != null && students[i].equals(s)) {
+//				return false;
+//			}
+
+		return false;
 	}
 
 	// 학생조회
@@ -105,27 +127,27 @@ public class StudentDao2  {
 		return resultStudent;
 
 	}
+
 	public boolean saveStudent() {
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("student.bs"))){
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("student.bs"))) {
 			oos.writeObject(this.students);
-			
-		}catch(IOException e) {
+
+		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-	
+
 	public boolean loadStudent() {
-		try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream("student.bs"))){
-			this.students=(Student[])ois.readObject();
-		}catch(ClassNotFoundException|IOException e) {
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("student.bs"))) {
+			this.students = (Student[]) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 			return false;
-			
+
 		}
 		return true;
 	}
-	
 
 }
