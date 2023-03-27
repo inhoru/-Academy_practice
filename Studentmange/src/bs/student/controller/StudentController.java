@@ -85,7 +85,8 @@ public class StudentController {
 		MainView.getMainView().printMsg(result ? s.getStudentNo() + "학생수정완료 :)" : s.getStudentNo() + "학생수정실패 :(");
 
 	}
-
+		//항목별 학생조회
+		//인터페이스 이용
 	public void searchStudent() {
 		int type = view.selectType();
 		Object data = null;
@@ -111,10 +112,12 @@ public class StudentController {
 
 		view.printStudent(result);
 	}
+	//저장하기
 	public void saveStudent() {
 		boolean result = StudentDao2.getStudentDao().saveStudent();
 		view.printMsg(result?"저장완료하였습니다":"저장실패하였습니다.");
 	}
+	//불러오기
 	public void loadStudent() {
 		boolean result = StudentDao2.getStudentDao().loadStudent();
 		view.printMsg(result?"불러오기 성공 :)":"불러오기 실패 :(");
